@@ -42,7 +42,11 @@ public class HanoiController implements Initializable{
             int number = diskNumber.getValue();
             model.reset(number);
             moves = 0;
-            if (statusLabel != null) statusLabel.setText("Lépések: 0");
+            statusLabel.setText("Lépések: 0");
+
+            if (selectedFromPeg != null) highlightPeg(selectedFromPeg, false);
+            selectedFromPeg = null;
+
             drawDisks();
         });
 
@@ -106,6 +110,13 @@ public class HanoiController implements Initializable{
             highlightPeg(pegIndex, true);
         } else {
 
+            if (selectedFromPeg == pegIndex) {
+                highlightPeg(selectedFromPeg, false);
+                selectedFromPeg = null;
+                statusLabel.setText("Lépések: " + moves);
+                return;
+            }
+
             int from = selectedFromPeg;
             int to = pegIndex;
             selectedFromPeg = null;
@@ -156,5 +167,6 @@ public class HanoiController implements Initializable{
         if (selectedFromPeg != null) highlightPeg(selectedFromPeg, false);
         selectedFromPeg = null;
         drawDisks();
+
     }
 }
