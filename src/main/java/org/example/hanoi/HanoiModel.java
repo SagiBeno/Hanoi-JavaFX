@@ -2,6 +2,12 @@ package org.example.hanoi;
 
 import java.util.Stack;
 
+/**
+ * A Hanoi tornyai játék logikai modellje.
+ * Tárolja a rudak állapotát és kezeli a játékszabályokat.
+ *
+ */
+
 public class HanoiModel {
     private Stack<Integer>[] pegs;
     private int diskNumber;
@@ -21,6 +27,15 @@ public class HanoiModel {
     public int getDiskNumber() { return diskNumber; }
     public Stack<Integer>[] getPegs() { return pegs; }
 
+
+    /**
+     * Végrehajt egy lépést a megadott forrás és cél rúd között.
+     *
+     * @param from a forrás rúd indexe
+     * @param to   a cél rúd indexe
+     * @return true, ha a lépés szabályos volt, különben false
+     */
+
     public boolean move(int from, int to) {
         if (pegs[from].isEmpty()) return false;
 
@@ -34,6 +49,12 @@ public class HanoiModel {
         pegs[to].push(disk);
         return true;
     }
+
+    /**
+     * Ellenőrzi, hogy a játék befejeződött-e.
+     *
+     * @return true, ha az összes korong a harmadik rúdon van
+     */
 
     public boolean isSolved() {
         return pegs[2].size() == diskNumber;
