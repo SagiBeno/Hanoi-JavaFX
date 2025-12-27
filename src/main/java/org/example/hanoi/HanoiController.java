@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -19,12 +20,15 @@ public class HanoiController implements Initializable{
     @FXML public Rectangle peg1;
     @FXML public Rectangle peg2;
     @FXML public Rectangle peg3;
+    @FXML public ComboBox<Integer> diskNumber;
+    @FXML public Label statusLabel;
 
     public HanoiModel model;
     public List<Node> pegs;
-    public ComboBox<Integer> diskNumber;
 
+    public int moves = 0;
     public Integer selectedFromPeg = null;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,8 +39,10 @@ public class HanoiController implements Initializable{
         diskNumber.setValue(3);
 
         diskNumber.setOnAction(e -> {
-            int n = diskNumber.getValue();
-            model.reset(n);
+            int number = diskNumber.getValue();
+            model.reset(number);
+            moves = 0;
+            if (statusLabel != null) statusLabel.setText("Lépések: 0");
             drawDisks();
         });
 
@@ -46,7 +52,7 @@ public class HanoiController implements Initializable{
         drawDisks();
     }
 
-    private Paint getDiskColor(int disk, int maxDisk) {
+    public Paint getDiskColor(int disk, int maxDisk) {
         return Color.hsb(
                 (disk * 360.0) / maxDisk,
                 0.8,
@@ -82,7 +88,10 @@ public class HanoiController implements Initializable{
                 rectangle.setArcHeight(10.0);
 
                 int pegIndex = peg;
-                rectangle.setOnMouseClicked(e -> System.out.println("Kattintott rúd: " + pegIndex));
+                rectangle.setOnMouseClicked(e -> {
+                    onPegClicked(pegIndex);
+                    e.consume();
+                });
 
                 board.getChildren().add(rectangle);
                 level++;
@@ -90,12 +99,11 @@ public class HanoiController implements Initializable{
         }
     }
 
-    private void onPegClicked(int pegIndex) {
+    @FXML public void onPegClicked(int pegIndex) {
         if (selectedFromPeg == null) {
             if (model.getPegs()[pegIndex].isEmpty()) return;
             selectedFromPeg = pegIndex;
             highlightPeg(pegIndex, true);
-            System.out.println("From = " + selectedFromPeg);
         } else {
             int from = selectedFromPeg;
             int to = pegIndex;
@@ -103,15 +111,25 @@ public class HanoiController implements Initializable{
             highlightPeg(from, false);
             boolean ok = model.move(from, to);
             if (ok) {
+                moves++;
                 drawDisks();
+
+                if (statusLabel != null) {
+                    if (model.isSolved()) {
+                        statusLabel.setText("Kész! Lépések: " + moves);
+                    } else {
+                        statusLabel.setText("Lépések: " + moves);
+                    }
+                }
             } else {
-                System.out.println("Szabálytalan lépés!");
+                if (statusLabel != null) {
+                    statusLabel.setText("Szabálytalan lépés! Lépések: " + moves);
+                }
             }
-            System.out.println("Move: " + from + " -> " + to);
         }
     }
 
-    private void highlightPeg(int pegIndex, boolean on) {
+    @FXML public void highlightPeg(int pegIndex, boolean on) {
         Rectangle pegRect = switch (pegIndex) {
             case 0 -> peg1;
             case 1 -> peg2;
@@ -127,5 +145,13 @@ public class HanoiController implements Initializable{
             pegRect.setStroke(null);
             pegRect.setStrokeWidth(0);
         }
+    }
+
+    @FXML public void restart () {
+        int number = diskNumber.getValue();
+        model.reset(number);
+        moves = 0;
+        if (statusLabel != null) statusLabel.setText("Lépések: 0");
+        drawDisks();
     }
 }

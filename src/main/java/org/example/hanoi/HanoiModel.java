@@ -34,4 +34,8 @@ public class HanoiModel {
         pegs[to].push(disk);
         return true;
     }
+
+    public boolean isSolved() {
+        return pegs[2].size() == diskNumber;
+    }
 }
