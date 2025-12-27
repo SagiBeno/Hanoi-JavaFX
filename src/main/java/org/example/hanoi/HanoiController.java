@@ -105,6 +105,7 @@ public class HanoiController implements Initializable{
             selectedFromPeg = pegIndex;
             highlightPeg(pegIndex, true);
         } else {
+
             int from = selectedFromPeg;
             int to = pegIndex;
             selectedFromPeg = null;
@@ -129,7 +130,7 @@ public class HanoiController implements Initializable{
         }
     }
 
-    @FXML public void highlightPeg(int pegIndex, boolean on) {
+    public void highlightPeg(int pegIndex, boolean on) {
         Rectangle pegRect = switch (pegIndex) {
             case 0 -> peg1;
             case 1 -> peg2;
@@ -152,6 +153,8 @@ public class HanoiController implements Initializable{
         model.reset(number);
         moves = 0;
         if (statusLabel != null) statusLabel.setText("Lépések: 0");
+        if (selectedFromPeg != null) highlightPeg(selectedFromPeg, false);
+        selectedFromPeg = null;
         drawDisks();
     }
 }

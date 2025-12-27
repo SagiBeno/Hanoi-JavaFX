@@ -3,8 +3,8 @@ package org.example.hanoi;
 import java.util.Stack;
 
 public class HanoiModel {
-    public Stack<Integer>[] pegs;
-    public int diskNumber;
+    private Stack<Integer>[] pegs;
+    private int diskNumber;
 
     public HanoiModel(int n) {
         pegs = new Stack[3];
