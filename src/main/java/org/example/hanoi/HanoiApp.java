@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * A Hanoi tornyai JavaFX alkalmazás belépési pontja.
+ */
+
 public class HanoiApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
