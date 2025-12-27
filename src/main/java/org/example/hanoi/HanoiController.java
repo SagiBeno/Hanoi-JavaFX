@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * A Hanoi tornyai JavaFX alkalmazás vezérlője.
+ * Kezeli a felhasználói interakciókat és a grafikus megjelenítést.
+ */
+
 public class HanoiController implements Initializable{
     @FXML public Pane board;
     @FXML public Rectangle peg1;
@@ -102,6 +107,11 @@ public class HanoiController implements Initializable{
             }
         }
     }
+
+    /**
+     * Kezeli a rúdra történő kattintást.
+     * Első kattintásnál forrást választ, másodiknál lépést hajt végre.
+     */
 
     @FXML public void onPegClicked(int pegIndex) {
         if (selectedFromPeg == null) {
