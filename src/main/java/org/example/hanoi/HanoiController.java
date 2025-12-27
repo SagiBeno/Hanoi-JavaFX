@@ -24,6 +24,8 @@ public class HanoiController implements Initializable{
     public List<Node> pegs;
     public ComboBox<Integer> diskNumber;
 
+    public Integer selectedFromPeg = null;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model = new HanoiModel(3);
@@ -37,6 +39,10 @@ public class HanoiController implements Initializable{
             model.reset(n);
             drawDisks();
         });
+
+        peg1.setOnMouseClicked(e -> onPegClicked(0));
+        peg2.setOnMouseClicked(e -> onPegClicked(1));
+        peg3.setOnMouseClicked(e -> onPegClicked(2));
         drawDisks();
     }
 
@@ -81,6 +87,45 @@ public class HanoiController implements Initializable{
                 board.getChildren().add(rectangle);
                 level++;
             }
+        }
+    }
+
+    private void onPegClicked(int pegIndex) {
+        if (selectedFromPeg == null) {
+            if (model.getPegs()[pegIndex].isEmpty()) return;
+            selectedFromPeg = pegIndex;
+            highlightPeg(pegIndex, true);
+            System.out.println("From = " + selectedFromPeg);
+        } else {
+            int from = selectedFromPeg;
+            int to = pegIndex;
+            selectedFromPeg = null;
+            highlightPeg(from, false);
+            boolean ok = model.move(from, to);
+            if (ok) {
+                drawDisks();
+            } else {
+                System.out.println("Szabálytalan lépés!");
+            }
+            System.out.println("Move: " + from + " -> " + to);
+        }
+    }
+
+    private void highlightPeg(int pegIndex, boolean on) {
+        Rectangle pegRect = switch (pegIndex) {
+            case 0 -> peg1;
+            case 1 -> peg2;
+            case 2 -> peg3;
+            default -> null;
+        };
+        if (pegRect == null) return;
+
+        if (on) {
+            pegRect.setStroke(Paint.valueOf("#ffd54a"));
+            pegRect.setStrokeWidth(4);
+        } else {
+            pegRect.setStroke(null);
+            pegRect.setStrokeWidth(0);
         }
     }
 }

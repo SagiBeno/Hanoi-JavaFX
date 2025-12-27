@@ -21,4 +21,17 @@ public class HanoiModel {
     public int getDiskNumber() { return diskNumber; }
     public Stack<Integer>[] getPegs() { return pegs; }
 
+    public boolean move(int from, int to) {
+        if (pegs[from].isEmpty()) return false;
+
+        int disk = pegs[from].peek();
+
+        if (!pegs[to].isEmpty() && pegs[to].peek() < disk) {
+            return false;
+        }
+
+        pegs[from].pop();
+        pegs[to].push(disk);
+        return true;
+    }
 }
