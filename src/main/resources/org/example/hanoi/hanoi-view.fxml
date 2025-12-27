@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hanoi.HanoiController">
+
+    <!-- Background board area -->
+    <children>
+      <AnchorPane prefHeight="52.0" prefWidth="644.0">
+         <children>
+            <Label layoutX="10.0" layoutY="15.0" text="Korongok száma:">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="diskNumber" layoutX="137.0" layoutY="13.0" prefHeight="26.0" prefWidth="60.0" AnchorPane.leftAnchor="137.0" />
+            <Label fx:id="statusLabel" alignment="TOP_LEFT" layoutX="225.0" layoutY="14.0" prefHeight="22.0" prefWidth="295.0" text="Lépések: 0">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Button layoutX="533.0" layoutY="10.0" mnemonicParsing="false" onAction="#restart" text="Újrakezdés">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+        <Pane fx:id="board" layoutX="21.0" layoutY="57.0" prefHeight="286.0" prefWidth="601.0">
+            <children>
+
+                <!-- Peg 1 -->
+                <Rectangle fx:id="peg1" fill="#555555" height="180.0" layoutX="100.0" layoutY="80.0" width="10.0" />
+
+                <!-- Peg 2 -->
+                <Rectangle fx:id="peg2" fill="#555555" height="180.0" layoutX="295.0" layoutY="80.0" width="10.0" />
+      
+                <!-- Peg 3 -->
+                <Rectangle fx:id="peg3" fill="#555555" height="180.0" layoutX="490.0" layoutY="80.0" width="10.0" />
+
+                <!-- Base -->
+                <Rectangle fill="#333333" height="10.0" layoutY="260.0" width="600.0" />
+                
+            </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+        </Pane>
+    </children>
+</AnchorPane>
